@@ -24,7 +24,7 @@ public class Commands implements CommandExecutor{
 			List<Integer>rolls = new ArrayList<Integer>(); //stores multiple dice rolls
 			
 			if(sRay.length==0){
-				player.sendMessage(ChatColor.RED+"Try /roll <number>"); //when user fails to pick a dice
+				player.sendMessage(ChatColor.RED+"Try /roll <diceType>"); //when user fails to pick a dice
 				return true;
 			}else if(sRay.length ==1){ //if command has at least one additional argument
 			//probably could be done better, this try/catch validates Integer.parseInt()	
@@ -33,7 +33,7 @@ public class Commands implements CommandExecutor{
 					userDice = Integer.parseInt(sRay[0]); //sets the dice
 					rolled = dice.nextInt(userDice)+1; //"rolls" the dice
 				}else{
-					player.sendMessage(ChatColor.RED+"That dice has too many sides, "+player.getDisplayName() + "!"); //returned if dice is outside range
+					player.sendMessage(ChatColor.RED+"That dice has too many/too few sides, "+player.getDisplayName() + "!"); //returned if dice is outside range
 					return true;
 				}
 				displayResults(player,rolled,userDice); //DISPLAY RESULTS
@@ -53,15 +53,18 @@ public class Commands implements CommandExecutor{
 						userDice = Integer.parseInt(sRay[0]); //sets the dice
 						rolled = dice.nextInt(userDice)+1; //"rolls" the dice
 					}else {
-						player.sendMessage(ChatColor.RED+"That dice has too many sides, "+player.getDisplayName() + "!"); //returned if dice is outside range
+						player.sendMessage(ChatColor.RED+"That dice has too many/too few sides, "+player.getDisplayName() + "!"); //returned if dice is outside range
 						return false;
 					}
-					if(Integer.parseInt(sRay[1]) <= 12 && Integer.parseInt(sRay[1]) >= 1) { //dice amount must be be from 1-12
+					if(Integer.parseInt(sRay[1]) <= 12 && Integer.parseInt(sRay[1]) >= 2) { //dice amount must be be from 1-12
 						for(int a = 0; a<Integer.parseInt(sRay[1]); a++) {
 							userDice = Integer.parseInt(sRay[0]);
 							rolls.add(dice.nextInt(userDice)+1);
 						}
 						displayResults(player, rolls, userDice);
+						return true;
+					}else if(Integer.parseInt(sRay[1]) == 1){
+						player.sendMessage(ChatColor.RED+"This command is for multiple dice! Try /roll <diceType>");
 						return true;
 					}else {
 						player.sendMessage(ChatColor.RED+"Invalid dice amount, try again "+player.getDisplayName()); //returned if too many/ too few dice are rolled
@@ -72,7 +75,7 @@ public class Commands implements CommandExecutor{
 					return true;					
 				}
 			}else{
-				player.sendMessage(ChatColor.RED+"Try /roll <number>"); //when user sends invalid command
+				player.sendMessage(ChatColor.RED+"Try /roll <diceType>"); //when user sends invalid command
 				return true;
 			}
 			
