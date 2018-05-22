@@ -75,6 +75,7 @@ public class Commands implements CommandExecutor{
 				player.sendMessage(ChatColor.RED+"Try /roll <number>"); //when user sends invalid command
 				return true;
 			}
+			
 			}else{ //else for player check
 		Bukkit.getConsoleSender().sendMessage("Command must be sent from player!");
 			return false;				
@@ -87,14 +88,14 @@ public class Commands implements CommandExecutor{
 		
 		for(Player p: player.getWorld().getPlayers()){ //runs through all players online to check their relation to sender
 			target = p.getLocation(); //grabs location of player in list
-			if(loc.distance(target)<=20){ //10 is the max distance between sender and recipients
+			if(loc.distance(target)<=20){ //20 is the max distance between sender and recipients
 				
 				if(p.equals(player)){//if player is you
 					//final product "You rolled a 4 on a D6"
-					player.sendMessage(ChatColor.GOLD+"You rolled a "+rolled+ " on a D"+userDice);
+					p.sendMessage(ChatColor.GOLD+"You rolled a "+rolled+ " on a D"+userDice);
 				}else{
 					//final product "Epixauce rolled a 4 on a D6"
-					player.sendMessage(ChatColor.GOLD+player.getDisplayName()+" rolled a "+rolled+" on a D"+userDice);						
+					p.sendMessage(ChatColor.GOLD+player.getDisplayName()+" rolled a "+rolled+" on a D"+userDice);						
 				}
 			}
 		}	
