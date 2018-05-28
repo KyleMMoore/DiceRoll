@@ -1,10 +1,10 @@
 # DiceRoll
 Roll dice in Minecraft
 
-/roll <diceType from 2-100>
-  Ex.) /roll 6
+/roll d<diceType from 2-100>
+  Ex.) /roll d6
   Rolls a single 6 sided dice
   
-/roll <diceType from 2-100> <amount up to 12
-  Ex.) /roll 6 2
+/roll d<diceType from 2-100> <amount up to 12>
+  Ex.) /roll d6 2
   Rolls 2 six sided dice
