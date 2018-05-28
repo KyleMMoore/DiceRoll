@@ -31,11 +31,16 @@ public class Commands implements CommandExecutor {
 			switch (sRay.length) {
 			// when user fails to pick a dice
 			case 0:
-				player.sendMessage(ChatColor.RED + "Try /roll <diceType>");
+				player.sendMessage(ChatColor.RED + "Try /roll d<2-100>");
 				return true;
 			// when user only enters one dice
 			case 1:
 				try {
+					if (sRay[0].charAt(0) == 'd' || sRay[0].charAt(0) == 'D') {
+						sRay[0] = sRay[0].substring(1);
+					} else {
+						return false;
+					}
 					// dice must be between 2 and 100
 					if (Integer.parseInt(sRay[0]) <= 100 && Integer.parseInt(sRay[0]) >= 2) {
 
@@ -61,6 +66,12 @@ public class Commands implements CommandExecutor {
 			// when user throws multiple dice
 			case 2:
 				try {
+					// format dice type with 'd' append ex.) /roll d6
+					if (sRay[0].charAt(0) == 'd' || sRay[0].charAt(0) == 'D') {
+						sRay[0] = sRay[0].substring(1);
+					} else {
+						return false;
+					}
 					// dice must be between 2 and 100
 					if (Integer.parseInt(sRay[0]) <= 100 && Integer.parseInt(sRay[0]) >= 2) {
 
@@ -103,10 +114,10 @@ public class Commands implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "That's no dice, " + name);
 					return true;
 				}
-			// when user tries /roll without a dice type
+				// when user tries /roll without a dice type
 			default:
 				// when user sends invalid command
-				player.sendMessage(ChatColor.RED + "Try /roll <diceType>");
+				player.sendMessage(ChatColor.RED + "Try /roll d<2-100>");
 				return true;
 			}
 		} else {
@@ -133,12 +144,12 @@ public class Commands implements CommandExecutor {
 				if (p.equals(player)) {
 
 					// final product "You rolled a 4 on a D6"
-					p.sendMessage(ChatColor.GOLD + "You rolled a " + rolled + " on a D" + userDice);
+					p.sendMessage(ChatColor.GOLD + "You rolled a " + ChatColor.GREEN + rolled + ChatColor.GOLD + " on a D" + userDice);
 				} else {
 
 					// final product "Epixauce rolled a 4 on a D6"
 					p.sendMessage(
-							ChatColor.GOLD + player.getDisplayName() + " rolled a " + rolled + " on a D" + userDice);
+							ChatColor.GOLD + player.getDisplayName() + " rolled a " + ChatColor.GREEN + rolled + ChatColor.GOLD + " on a D" + userDice);
 				}
 			}
 		}
@@ -150,11 +161,15 @@ public class Commands implements CommandExecutor {
 		// potential location of players nearby
 		Location target;
 		// compiled output of all rolls
-		String message = " rolled [";
-		for (Integer i : rolls) {
-			message += " " + i;
+		String message = "";
+		for (int a = 0; a < rolls.size(); a++) {
+
+			if (a != rolls.size() - 1)
+				message += rolls.get(a) + ", ";
+			else
+				message += "and " + rolls.get(a);
+
 		}
-		message += " ]";
 		// runs through all players online to check their relation to sender
 		for (Player p : player.getWorld().getPlayers()) {
 			// grabs location of player in list
@@ -166,15 +181,45 @@ public class Commands implements CommandExecutor {
 				if (p.equals(player)) {
 
 					// final product "You rolled [ n n n n n n ] on 6 D6"
-					p.sendMessage(ChatColor.GOLD + "You" + message + " on " + rolls.size() + " D" + userDice);
+					p.sendMessage(ChatColor.GOLD + "You rolled a " + ChatColor.GREEN + message + ChatColor.GOLD + " on " + numberToWord(rolls.size())
+							+ " D" + userDice);
 				} else {
 
 					// final product "Epixauce rolled [ n n n n n n ] on 6 D6"
-					p.sendMessage(ChatColor.GOLD + player.getDisplayName() + message + " on " + rolls.size() + " D"
-							+ userDice);
+					p.sendMessage(ChatColor.GOLD + player.getDisplayName() + "rolled a " + ChatColor.GREEN + message
+							+ ChatColor.GOLD + " on " + numberToWord(rolls.size()) + " D" + userDice);
 
 				}
 			}
+		}
+	}
+
+	private String numberToWord(int n) {
+		switch (n) {
+		case 2:
+			return "two";
+		case 3:
+			return "three";
+		case 4:
+			return "four";
+		case 5:
+			return "five";
+		case 6:
+			return "six";
+		case 7:
+			return "seven";
+		case 8:
+			return "eight";
+		case 9:
+			return "nine";
+		case 10:
+			return "ten";
+		case 11:
+			return "eleven";
+		case 12:
+			return "twelve";
+		default:
+			return "zero";
 		}
 	}
 }

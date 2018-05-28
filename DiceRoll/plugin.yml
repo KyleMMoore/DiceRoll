@@ -1,9 +1,9 @@
 name: DiceRoll
 main: net.lotfmc.epixauce.diceroll.DiceRoll
 author: Epixauce
-version: 1.2
-description: Rolls a dice. D2-D100
+version: 1.2.2
+description: Rolls a dice, or several. D2-D100 2-12 at a time.
 commands:
     roll:
         description: Rolls dice.
-        usage: /roll <dice type> <amount of dice> 
+        usage: /roll d<2-100> <2-12>
